@@ -8,6 +8,14 @@
     <artifactId>tutor-finder</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <description>OOC project Tutor Finder</description>
+    <properties>
+        <main.basedir>${project.basedir}</main.basedir>
+
+        <!-- Analysis Tools for CI -->
+        <build-plugin.jacoco.version>0.8.5</build-plugin.jacoco.version>
+        <build-plugin.coveralls.version>4.3.0</build-plugin.coveralls.version>
+    </properties>
 
     <modules>
         <module>frontend</module>
