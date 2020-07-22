@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200", "http://localhost:8080","http://localhost:9090" })
+@CrossOrigin(origins = { "http://localhost:8080"}) // port of vue
 @RestController
 public class CourseResource {
 
     @Autowired
     private CoursesHardCodedService courseManagementService;
 
-    @GetMapping("/instructors/{username}/courses")
+    @GetMapping("/{username}/courses")
     public List<Course> getAllCourses(@PathVariable String username) {
         return courseManagementService.findAll();
     }
