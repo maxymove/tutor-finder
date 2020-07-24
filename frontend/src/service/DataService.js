@@ -1,17 +1,24 @@
 import axios from "axios";
 
 const ROLE = "admin";// admin
-const COURSE_API_URL = "http://localhost:9090";
-const ROLE_API_URL = `${COURSE_API_URL}/${ROLE}`;
+const PASSWORD = "admin";
+const URL = "http://localhost:9090";
+const ROLE_API_URL = '${URL}/${ROLE}';
 
-class CourseDataService {
+class DataService {
   retrieveAllCourses() {
-    return axios.get(`${INSTRUCTOR_API_URL}/courses`);
+    return axios.get(`${ROLE_API_URL}/login/${ROLE}`);
   }
   deleteCourse(name, id) {
-      return axios.delete(`${INSTRUCTOR_API_URL}/courses/${id}`);
+      return axios.delete(`${URL}/courses/${id}`);
   }
 
 }
 
-export default new CourseDataService();
+export default new DataService();
+//
+// retrieveAllCourses() {
+//   return axios.get(`${ROLE_API_URL}/login`,
+//       { headers: { authorization: 'Basic ' + window.btoa(ROLE + ":" + PASSWORD) } }
+//   );
+// }

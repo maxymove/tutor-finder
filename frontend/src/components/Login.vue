@@ -11,7 +11,7 @@ export default {
 name: "Login",
     data(){
     return{
-        Username:"",
+        Username:"chakeera",
         Password:"",
 
     }
@@ -21,7 +21,7 @@ name: "Login",
             this.$router.push(`/register`);
         },
         goToProfilePage(){
-            this.$router.push(`/profile/{Username}`);
+            this.$router.push(`/profile/`+this.Username);
         }
 }
 };
