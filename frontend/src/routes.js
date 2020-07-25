@@ -20,7 +20,13 @@ const router = new Router({
             path: "/profile/:Username",
             name: "Profile",
             component: () => import("./components/Profile"),
+        },
+        {
+            path: "/userlist",
+            name: "UserList",
+            component: () => import("./components/UserList"),
         }
+
 
         // {
         //     path: "/course/:id",

@@ -20,8 +20,6 @@
                     <input type="checkbox" name="is_featured" v-bind="loginData.is_featured">
                     <span></span>
                 </label>
-                <p class="featured-note">Forget your password?.</p>
-                <button type="submit" class="submit-button">Forget Password</button><br>
                 <button type="submit" class="submit-button">Login</button><br>
                 <div class="cancel"><span @click="cancelLogin()">Back</span></div>
             </form>
@@ -29,7 +27,7 @@
         <br>
         <div class="add-product" :class="{'open': registerFormOpen}">
             <div class="button-copy" v-show="!registerFormOpen" @click="registerFormOpen = true">Register</div>
-            <form @submit="cancelRegister()">
+            <form @submit="register">
                 <div class="form--field">
                     <h1>Register</h1>
                     <input type="text" class="form--element" name="username" v-model="registerData.username" placeholder="Username" required="true">
@@ -54,12 +52,14 @@
                 <div class="cancel"><span @click="cancelAbout()">Back</span></div>
             </form>
         </div>
+        <button type="button" class="button" @click="goToUserList">GO</button>
         <br>
         <br>
         <br>
     </div>
 </template>
 <script>
+    import DataService from '../service/DataService';
     export default {
         name:"Welcome",
         data(){
@@ -80,6 +80,22 @@
             }
         },
         methods:{
+            goToUserList(){
+                this.$router.push('/userlist');
+            },
+            register(){
+                console.log({
+                    username : this.registerData.username,
+                    password: this.registerData.password,
+                    email:this.registerData.email
+                })
+            },
+            registerInfo(username,password,email,dob){
+                DataService.registerInfo(this.registerData.username,this.registerData.password,this.registerData.email,this.registerData,dob)
+                    .then(() => {
+                        this.$router.push('/registerInfo');
+                    });
+            },
             resetForm: function () {
                 this.loginData = {
                     username: '',
