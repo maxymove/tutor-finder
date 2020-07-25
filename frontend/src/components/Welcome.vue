@@ -10,75 +10,85 @@
         <br>
         <div class="add-product" :class="{'open': loginFormOpen}">
             <div class="button-copy" v-show="!loginFormOpen" @click="loginFormOpen = true">Login</div>
-            <form @submit="cancelLogin()">
+            <form name="form" @submit.prevent="handleLogin" @submit="cancelLogin()">
+                <div v-if="!successful">
                 <div class="form--field">
-                    <input type="text" class="form--element" name="Username" v-model="loginData.username" placeholder="Username" required="">
-                    <input type="password" class="form--element" name="password" v-model="loginData.password" placeholder="password" required="">
+                    <input type="text" class="form--element"  placeholder="Username" v-model="userLogin.username" v-validate="'required'" name="username" required="">
+                    <input type="password" class="form--element" placeholder="password" v-model="userLogin.password" v-validate="'required'" name="password" required="">
                 </div>
                 <label class="emoji">
                     press me
                     <input type="checkbox" name="is_featured" v-bind="loginData.is_featured">
                     <span></span>
                 </label>
-                <p class="featured-note">Forget your password?.</p>
-                <button type="submit" class="submit-button">Forget Password</button><br>
                 <button type="submit" class="submit-button">Login</button><br>
                 <div class="cancel"><span @click="cancelLogin()">Back</span></div>
+                </div>
             </form>
         </div>
         <br>
         <div class="add-product" :class="{'open': registerFormOpen}">
             <div class="button-copy" v-show="!registerFormOpen" @click="registerFormOpen = true">Register</div>
-            <form @submit="cancelRegister()">
+            <form  @submit.prevent="handleRegister">
+                <div v-if="!successful">
                 <div class="form--field">
-                    <h1>Register</h1>
-                    <input type="text" class="form--element" name="username" v-model="registerData.username" placeholder="Username" required="true">
-                    <input type="password" class="form--element" name="password" v-model="registerData.password" placeholder="Password" required="true">
-                    <input type="password" class="form--element" name="retype" v-model="registerData.retype" placeholder="Retype Password" required="true">
-                    <input type="text" class="form--element" name="email" v-model="registerData.email" placeholder="Email" required="">
-                    <input type="date" class="form--element" name="dob" v-model="registerData.dob" placeholder="DOB" required="">
+                    <input type="text" class="form--element" name="username" placeholder="Username" required="true" v-model="userRegister.username" v-validate="'required|min:3|max:20'">
+                    <input type="password" class="form--element" name="password"  placeholder="Password" required="true" v-model="userRegister.password" v-validate="'required|min:6|max:40'">
+                    <input class="form--element" name="email" placeholder="Email" v-model="userRegister.email" v-validate="'required|email|max:100'" type="email">
+                    <input type="date" class="form--element" name="dob" v-model="userRegister.dob" placeholder="DOB" required="">
                 </div>
                 <p class="featured-note">You cannot change username later.</p>
                 <button type="submit" class="submit-button">Register</button>
                 <div class="cancel"><span @click="cancelRegister()">Back</span></div>
+                </div>
             </form>
         </div>
         <br>
-
         <div class="add-product" :class="{'open': aboutFormOpen}">
             <div class="button-copy" v-show="!aboutFormOpen" @click="aboutFormOpen = true">About Us</div>
             <form @submit="cancelAbout()">
-                <div class="form--field">
-                    <h1>More About Us</h1>
-                </div>
+                <h1>More About Us</h1>
+                <h2>We are group of people who want this project to be done nicely but we are lack of help so he want to find some people to help hence tutor finder</h2>
                 <div class="cancel"><span @click="cancelAbout()">Back</span></div>
             </form>
         </div>
-        <br>
-        <br>
-        <br>
     </div>
 </template>
 <script>
+    import User from '../models/user';
     export default {
         name:"Welcome",
         data(){
             return{
-                message:"",
+                userLogin: new User('', ''),
+                loading: false,
+                message: '',
                 loginFormOpen: false,
                 registerFormOpen:false,
                 aboutFormOpen:false,
+                userRegister: new User('', '', '',''),
+                submitted: false,
+                successful: false,
                 loginData: {
-                    username: '',
-                    password:''},
-                registerData:{
-                    username: '',
-                    password:'',
-                    retype:'',
-                    email:'',
-                    dob:''}
+                    is_featured: false},
+
             }
         },
+        computed: {
+            loggedIn() {
+                return this.$store.state.auth.status.loggedIn;
+            }
+        },
+        created() {
+            if (this.loggedIn) {
+                this.$router.push('/profile');
+            }
+        },
+        mounted() {
+            if (this.loggedIn) {
+                this.$router.push('/profile');
+            }
+            },
         methods:{
             resetForm: function () {
                 this.loginData = {
@@ -96,15 +106,65 @@
             cancelLogin: function() {
                 this.loginFormOpen = false;
                 this.resetForm();
-            },  cancelRegister: function() {
+            },
+            cancelRegister: function() {
                 this.registerFormOpen= false;
                 this.resetForm();
-            },  cancelAbout: function() {
+            },
+            cancelAbout: function() {
                 this.aboutFormOpen=false;
                 this.resetForm();
+            },
+
+            handleLogin() {
+                this.loading = true;
+                this.$validator.validateAll().then(isValid => {
+                    if (!isValid) {
+                        this.loading = false;
+                        return;
+                    }
+                    if (this.user.username && this.user.password) {
+                        this.$store.dispatch('auth/', this.user).then(
+                            () => {
+                                this.$router.push('/profile');
+                            },
+                            error => {
+                                this.loading = false;
+                                this.message =
+                                    (error.response && error.response.data) ||
+                                    error.message ||
+                                    error.toString();
+                            }
+                        );
+                    }
+                });
+            },
+            handleRegister() {
+                this.message = '';
+                this.submitted = true;
+                this.$validator.validate().then(isValid => {
+                    if (isValid) {
+                        this.$store.dispatch('auth/', this.user).then(
+                            data => {
+                                this.message = data.message;
+                                this.successful = true;
+                                this.$router.push('/');
+                            },
+                            error => {
+                                this.message =
+                                    (error.response && error.response.data) ||
+                                    error.message ||
+                                    error.toString();
+                                this.successful = false;
+                            }
+                        );
+                    }
+                });
             }
         }
-    }
+    };
+
+
 
 </script>
 <style lang="scss">
