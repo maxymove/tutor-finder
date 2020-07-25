@@ -4,32 +4,32 @@
 
     <div class="container">
         <img :src="require('../assets/Tutor_Finder_Logo.png')" />
+        <div class="typewriter">
                 <h1>Welcome to Tutor Finder</h1>
+        </div>
         <br>
         <div class="add-product" :class="{'open': loginFormOpen}">
             <div class="button-copy" v-show="!loginFormOpen" @click="loginFormOpen = true">Login</div>
-            <form @submit="cancel()">
+            <form @submit="cancelLogin()">
                 <div class="form--field">
-                    <h1>Login</h1>
                     <input type="text" class="form--element" name="Username" v-model="loginData.username" placeholder="Username" required="">
                     <input type="password" class="form--element" name="password" v-model="loginData.password" placeholder="password" required="">
                 </div>
-                <div class="form--field">
-                    <label class="emoji">
-                      press me
-                        <input type="checkbox" name="is_featured" v-bind="loginData.is_featured">
-                        <span></span>
-                    </label>
-                    <p class="featured-note">If Is Featured is selected the product will appear in a large card.</p>
-                </div>
+                <label class="emoji">
+                    press me
+                    <input type="checkbox" name="is_featured" v-bind="loginData.is_featured">
+                    <span></span>
+                </label>
+                <p class="featured-note">Forget your password?.</p>
+                <button type="submit" class="submit-button">Forget Password</button><br>
                 <button type="submit" class="submit-button">Login</button><br>
-                <div class="cancel"><span @click="cancel()">Back</span></div>
+                <div class="cancel"><span @click="cancelLogin()">Back</span></div>
             </form>
         </div>
         <br>
         <div class="add-product" :class="{'open': registerFormOpen}">
             <div class="button-copy" v-show="!registerFormOpen" @click="registerFormOpen = true">Register</div>
-            <form @submit="cancel()">
+            <form @submit="cancelRegister()">
                 <div class="form--field">
                     <h1>Register</h1>
                     <input type="text" class="form--element" name="username" v-model="registerData.username" placeholder="Username" required="true">
@@ -38,22 +38,20 @@
                     <input type="text" class="form--element" name="email" v-model="registerData.email" placeholder="Email" required="">
                     <input type="date" class="form--element" name="dob" v-model="registerData.dob" placeholder="DOB" required="">
                 </div>
-                <div class="form--field">
-                    <p class="featured-note">If Is Featured is selected the product will appear in a large card.</p>
-                </div>
+                <p class="featured-note">You cannot change username later.</p>
                 <button type="submit" class="submit-button">Register</button>
-                <div class="cancel"><span @click="cancel()">Back</span></div>
+                <div class="cancel"><span @click="cancelRegister()">Back</span></div>
             </form>
         </div>
         <br>
 
         <div class="add-product" :class="{'open': aboutFormOpen}">
             <div class="button-copy" v-show="!aboutFormOpen" @click="aboutFormOpen = true">About Us</div>
-            <form @submit="cancel()">
+            <form @submit="cancelAbout()">
                 <div class="form--field">
                     <h1>More About Us</h1>
                 </div>
-                <div class="cancel"><span @click="cancel()">Back</span></div>
+                <div class="cancel"><span @click="cancelAbout()">Back</span></div>
             </form>
         </div>
         <br>
@@ -95,10 +93,13 @@
                         email:'',
                         dob:''}
             },
-            cancel: function() {
-
+            cancelLogin: function() {
                 this.loginFormOpen = false;
+                this.resetForm();
+            },  cancelRegister: function() {
                 this.registerFormOpen= false;
+                this.resetForm();
+            },  cancelAbout: function() {
                 this.aboutFormOpen=false;
                 this.resetForm();
             }
@@ -109,7 +110,6 @@
 <style lang="scss">
 
     .container {
-        background-color: #F3F4F5;
         display: flex;
         width: 100%;
         height: 100%;
@@ -129,32 +129,37 @@
             width: 420px;
             height: 398px;
             cursor: default;
+            text-align: center;
             form {
                 opacity: 1;
                 transition: opacity 0.1s ease;
                 transition-delay: 0.3s;
                 height: auto;
+                text-align: center;
             }
         }
         transition: all 0.3s ease;
-        background-color: #FFC145;
+        background-color: darken(#3498DB, 10%);
         height: 144px;
         width: 144px;
         border-radius: 72px;
         box-shadow: 0 4px 16px 0 rgba(0, 0, 0, .07);
         cursor: pointer;
+        text-align: center;
         .button-copy {
             text-align: center;
             line-height: 144px;
             text-transform: uppercase;
             font-weight: bold;
             color: #f7f7f7;
+            text-align: center;
         }
         form {
             transition: none;
             opacity: 0;
             height: 0;
             overflow: hidden;
+            text-align: center;
         }
         .cancel {
             font-size: 12px;
@@ -204,6 +209,7 @@
 
     form * {
         outline: none;
+
     }
 
     label {
@@ -211,6 +217,7 @@
         font-size: 14px;
         font-weight: bold;
         user-select: none;
+
         &.emoji {
             input {
                 -webkit-appearance: none;
@@ -236,11 +243,8 @@
     }
 
     .form--field {
-        width: 420px;
+        width: 400px;
         margin: 10px 0;
-        &.-short {
-            width: 120px;
-        }
     }
 
     .form--price {
@@ -256,15 +260,19 @@
 
     .form--container {
         width: 420px;
+        display: flex;
         &.-inline {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             margin-bottom: -12px;
+            text-align: center;
+
         }
     }
 
     .form--element {
+
         background-color: #fff;
         border: 1px solid #ECECEC;
         border-radius: 3px;
@@ -280,7 +288,7 @@
             border: 1px solid #FFC145;
             border-radius: 2px;
         }
-        &:not(.texteare) {
+        &:not(.textarea) {
             height: 30px;
         }
         &.textarea {
@@ -291,16 +299,19 @@
 
 
     html,
+
+
     body {
         height: 100%;
         width: 100%;
-    }
-
-    body {
         font-family: 'Open Sans', sans-serif;
         font-size: 16px;
-        background-color: #F3F4F5;
+        background-image: url('../assets/background.jpg');
+        background-size:cover;
         cursor: default;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     }
 
     a {
@@ -316,6 +327,29 @@
     ::-moz-selection {
         background-color: #F5617A;
         color: #fff;
+
+    }
+    .typewriter h1 {
+        overflow: hidden; /* Ensures the content is not revealed until the animation */
+        border-right: .15em solid orange; /* The typwriter cursor */
+        white-space: nowrap; /* Keeps the content on a single line */
+        margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+        letter-spacing: .10em; /* Adjust as needed */
+        animation:
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+    }
+
+    /* The typing effect */
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+
+    /* The typewriter cursor effect */
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: orange; }
     }
 </style>
 

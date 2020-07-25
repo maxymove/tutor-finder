@@ -12,15 +12,11 @@ const router = new Router({
             component: () => import("./components/Welcome"),
         },
         {
-            path: "/login",
-            name: "Login",
-            component: () => import("./components/Login"),
+            path: "/welcome",
+            name: "Welcome",
+            component: () => import("./components/Welcome"),
         },
         {
-            path: "/register",
-            name: "Register",
-            component: () => import("./components/Register"),
-        },{
             path: "/profile/:Username",
             name: "Profile",
             component: () => import("./components/Profile"),

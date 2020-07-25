@@ -6,7 +6,7 @@ const URL = "http://localhost:9090";
 const ROLE_API_URL = '${URL}/${ROLE}';
 
 class DataService {
-  retrieveAllCourses() {
+  checkIfAdmin() {
     return axios.get(`${ROLE_API_URL}/login/${ROLE}`);
   }
   deleteCourse(name, id) {
