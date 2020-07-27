@@ -4,6 +4,7 @@
         <div class="typewriter">
             <h1>Welcome, {{currentUser.username}} </h1>
         </div>
+        <h2>{{err}}</h2>
         <div class="blue-frame">
         <div class="blue-button-copy" @click="$router.push('/search')" >Add</div>
     </div>
@@ -24,7 +25,7 @@
                 <tr v-for="course in courses" v-bind:key="course.id">
                     <td>{{course.courseId}}</td>
                     <td>{{course.courseName}}</td>
-                    <td><button class="btn btn-warning"  v-on:click.once="deleteCourse(course.courseId,this.currentUser.username)">DELETE</button></td>
+                    <td><button class="btn btn-warning"  v-on:click.once="deleteCourse(course.courseId)">DELETE</button></td>
                     <td>
                     </td>
                 </tr>
@@ -60,12 +61,29 @@
         name: 'Profile',
         data(){
             return{
-                courses:[]
+                courses:[],
+                err: ''
             };
         },
         methods:{
-            deleteCourse(){
-                //fix here
+            refresh() {
+                axios
+                    .get('http://localhost:8080/api/test/' + this.currentUser.username + '/course')
+                    .then(
+                        response => {
+                            this.courses = response.data;
+                        }
+                    )
+            },
+
+            deleteCourse(id){
+                axios
+                    .post('http://localhost:8080/api/test/delete/course/' + this.currentUser.username + '.' + id)
+                    .then(
+                        response => {
+                            this.err = response.data;
+                        }
+                    )
             }
 
         },
