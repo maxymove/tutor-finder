@@ -1,6 +1,8 @@
 package app.tutorfinder.controller;
 
+import app.tutorfinder.MySql;
 import app.tutorfinder.models.Course;
+import app.tutorfinder.models.User;
 import app.tutorfinder.repository.CourseRepository;
 import app.tutorfinder.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +24,29 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    MySql mySql;
+
     @GetMapping("/search")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Course> getCourseList() {
         List<Course> courses = new ArrayList<>();
         return courseRepository.findAll();
     }
-//
-//    @GetMapping(path = "profile/{id}")
-//    public ResponseEntity displayUser(@PathVariable String id){
-//        return ResponseEntity.status(HttpStatus.OK).body(userRepository.findById(id));
-//    }
+
+    @GetMapping("/{username}")
+    public User getUser(@PathVariable String username) {
+        return mySql.getUser(username);
+    }
+
+    @GetMapping("/users")
+    public List<User> getUsers() {
+        return mySql.getUsers();
+    }
+
+    @PostMapping("/add/course/{username}.{courseId}")
+    public String addCourse(@PathVariable String username, @PathVariable String courseId) {
+        mySql.insertCourse(username, courseId);
+        return "successfully added the course.";
+    }
 }
