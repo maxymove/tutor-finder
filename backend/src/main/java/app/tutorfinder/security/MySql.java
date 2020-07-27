@@ -86,6 +86,21 @@ public class MySql {
         }
     }
 
+    public void deleteCourse(String username, String courseId) {
+        try {
+            connection = DriverManager.getConnection(jdbcURL);
+            String query = " delete from tutorfinder.course_taken where username = ? and course_id = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, courseId);
+            preparedStatement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            close();
+        }
+    }
+
     public User getUser(String username) {
         for (User user : getUsers()) {
             if (user.getUsername().equals(username)) {

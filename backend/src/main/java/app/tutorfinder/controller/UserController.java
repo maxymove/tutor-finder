@@ -50,6 +50,12 @@ public class UserController {
         return "successfully added the course.";
     }
 
+    @PostMapping("/delete/course/{username}.{courseId}")
+    public String deleteCourse(@PathVariable String username, @PathVariable String courseId) {
+        mySql.deleteCourse(username, courseId);
+        return "successfully remove the course";
+    }
+
     @GetMapping("/{username}/course")
     public List<UserCourse> getUserCourses(@PathVariable String username) {
         List<UserCourse> userCourses = new ArrayList<>();
