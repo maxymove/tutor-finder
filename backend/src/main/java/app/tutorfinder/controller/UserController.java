@@ -28,9 +28,9 @@ public class UserController {
         List<Course> courses = new ArrayList<>();
         return courseRepository.findAll();
     }
-
-    @GetMapping(path = "profile/{id}")
-    public ResponseEntity displayUser(@PathVariable String id){
-        return ResponseEntity.status(HttpStatus.OK).body(userRepository.findById(id));
-    }
+//
+//    @GetMapping(path = "profile/{id}")
+//    public ResponseEntity displayUser(@PathVariable String id){
+//        return ResponseEntity.status(HttpStatus.OK).body(userRepository.findById(id));
+//    }
 }
