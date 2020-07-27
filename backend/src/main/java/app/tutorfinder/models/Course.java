@@ -18,8 +18,15 @@ public class Course {
 
     private String courseName;
 
-    // ex.
-    private String description;
+    private String category;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public Long getId() {
         return id;
@@ -45,11 +52,4 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

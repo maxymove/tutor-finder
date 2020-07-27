@@ -21,11 +21,11 @@ class UserService {
   }
 
   getAllCourse() {
-    return axios.get(API_URL + 'course/all', { headers: authHeader()})
+    return axios.get(API_URL + 'search', { headers: authHeader()})
   }
 
-  getStudentCourseList(id){
-  return axios.get(API_URL +'profile/'+id,{headers:authHeader()});
+  getStudentCourseList(){
+  return axios.get(API_URL +'profile',{headers:authHeader()});
 
   }
 }

@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/course/all")
+    @GetMapping("/search")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Course> getCourseList() {
         List<Course> courses = new ArrayList<>();

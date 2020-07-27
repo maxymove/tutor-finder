@@ -1,14 +1,8 @@
 <template>
     <div class="container">
         <br>
-        <div class="typewriter">
-            <h1>Welcome, {{currentUser.username}} </h1>
-        </div>
-        <div class="blue-frame">
-        <div class="blue-button-copy" @click="$router.push('/search')" >Add</div>
-    </div>
         <br>
-        <h3>Current Courses</h3>
+        <h3>Current Available Courses</h3>
         <div v-if="message" class="alert alert-success">
             {{message}}
         </div>
@@ -18,14 +12,18 @@
                 <tr>
                     <th>Course Id</th>
                     <th>Course Name</th>
-                    <th>Description</th>
+                    <th>Course Category</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="course in courses" v-bind:key="course.id">
                     <td>{{course.courseId}}</td>
                     <td>{{course.courseName}}</td>
-                    <td>{{course.description}}</td>
+                    <td>{{course.category}}</td>
+                    <td><button class="btn btn-warning"
+                                v-on:click="addCourse(course.courseId)">
+                        ADD
+                    </button></td>
                     <td>
                     </td>
                 </tr>
@@ -33,23 +31,23 @@
             </table>
         </div>
 
-<!--        <p>-->
-<!--            <strong>Token:</strong>-->
-<!--            {{currentUser.accessToken.substring(0, 20)}} ...-->
-<!--            {{currentUser.accessToken.substr(currentUser.accessToken.length - 20)}}-->
-<!--        </p>-->
-<!--        <p>-->
-<!--            <strong>Id:</strong>-->
-<!--            {{currentUser.id}}-->
-<!--        </p>-->
-<!--        <p>-->
-<!--            <strong>Email:</strong>-->
-<!--            {{currentUser.email}}-->
-<!--        </p>-->
-<!--        <strong>Authorities:</strong>-->
-<!--        <ul>-->
-<!--            <li v-for="(role,index) in currentUser.roles" :key="index">{{role}}</li>-->
-<!--        </ul>-->
+        <!--        <p>-->
+        <!--            <strong>Token:</strong>-->
+        <!--            {{currentUser.accessToken.substring(0, 20)}} ...-->
+        <!--            {{currentUser.accessToken.substr(currentUser.accessToken.length - 20)}}-->
+        <!--        </p>-->
+        <!--        <p>-->
+        <!--            <strong>Id:</strong>-->
+        <!--            {{currentUser.id}}-->
+        <!--        </p>-->
+        <!--        <p>-->
+        <!--            <strong>Email:</strong>-->
+        <!--            {{currentUser.email}}-->
+        <!--        </p>-->
+        <!--        <strong>Authorities:</strong>-->
+        <!--        <ul>-->
+        <!--            <li v-for="(role,index) in currentUser.roles" :key="index">{{role}}</li>-->
+        <!--        </ul>-->
     </div>
 </template>
 
@@ -57,11 +55,16 @@
     import UserService from '../services/user.service';
 
     export default {
-        name: 'Profile',
+        name: 'Search',
         data(){
             return{
                 courses:[]
             };
+        },
+        methods:{
+            addCourse(id){
+                // axios.post .....
+            }
         },
         computed: {
             currentUser() {
@@ -69,10 +72,10 @@
             }
         },
         mounted() {
-            UserService.getStudentCourseList().then( //fix this
-             response => {
-                 this.courses = response.data;
-             }
+            UserService.getAllCourse().then(
+                response => {
+                    this.courses = response.data;
+                }
             )
             if (!this.currentUser) {
                 this.$router.push('/login');
@@ -80,7 +83,7 @@
         }
     };
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 
     .container {
         display: flex;
@@ -153,27 +156,4 @@
             border-color: orange;
         }
     }
-    .blue-frame{
-        transition: all 0.3s ease;
-        background-color: darken(#3498DB, 10%);
-        height: 100px;
-        width: 100px;
-        border-radius: 72px;
-        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, .07);
-        cursor: pointer;
-        text-align: center;
-        position: absolute;
-        top:80px;
-        right:10px;
-        .blue-button-copy {
-            text-align: center;
-            line-height: 100px;
-            text-transform: uppercase;
-            font-weight: bold;
-            color: #f7f7f7;
-            text-align: center;
-
-        }
-    }
-
 </style>
