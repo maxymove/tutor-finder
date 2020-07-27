@@ -5,7 +5,7 @@
         </h2>
         <br>
         <br>
-        <h3>Current Available Courses</h3>
+        <h3> Available Courses</h3>
         <div v-if="message" class="alert alert-success">
             {{message}}
         </div>

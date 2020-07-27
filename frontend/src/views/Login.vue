@@ -32,9 +32,15 @@
             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
             <span>Login</span>
           </button>
+
+          <button class="btn btn-primary btn-block" @click="$router.push('/home')">
+            <span> Back </span>
+          </button>
         </div>
+
+
         <div class="user-box">
-          <div v-if="message" class="alert alert-danger" role="alert">{{message}}</div>
+          <div v-if="message" class="alert alert-danger" role="alert">{{message.message}}</div>
         </div>
       </form>
     </div>
@@ -79,9 +85,7 @@ export default {
             error => {
               this.loading = false;
               this.message =
-                (error.response && error.response.data) ||
-                error.message ||
-                error.toString();
+                (error.response.data)
             }
           );
         }
