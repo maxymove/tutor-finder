@@ -51,14 +51,18 @@
                     </div>
                     <div class="user-box">
                         <button class="btn btn-primary btn-block">Sign Up</button>
+                        <button class="btn btn-primary btn-block"  @click="$router.push('/home')">
+                            <span> Back </span>
+                        </button>
                     </div>
                 </div>
             </form>
+            <br>
             <div
                     v-if="message"
                     class="alert"
                     :class="successful ? 'alert-success' : 'alert-danger'"
-            >{{message}}
+            >{{message.message}}
             </div>
         </div>
 </template>
@@ -100,9 +104,7 @@
                             },
                             error => {
                                 this.message =
-                                    (error.response && error.response.data) ||
-                                    error.message ||
-                                    error.toString();
+                                    (error.response.data)
                                 this.successful = false;
                             }
                         );

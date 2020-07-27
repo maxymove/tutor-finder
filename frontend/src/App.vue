@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+
     <nav class="navbar navbar-expand navbar-dark bg-dark">
       <a href class="navbar-brand" @click.prevent>TutorFinder</a>
       <div class="navbar-nav mr-auto">
@@ -16,18 +17,6 @@
         </li>
       </div>
 
-      <div v-if="!currentUser" class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link to="/register" class="nav-link">
-            <font-awesome-icon icon="user-plus" />Sign Up
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/login" class="nav-link">
-            <font-awesome-icon icon="sign-in-alt" />Login
-          </router-link>
-        </li>
-      </div>
 
       <div v-if="currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
@@ -79,3 +68,43 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+
+  a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #edf0f1;
+    text-decoration: none;
+  }
+  button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #edf0f1;
+    text-decoration: none;
+    padding: 9px 25px;
+    background-color: rgba(0,136,169,1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    margin-left: 20px;
+    &:hover {
+      background-color: rgba(0,136,169,0.8);
+    }
+  }
+  .nav__links {
+    li {
+      display: inline-block;
+      padding: 0 20px;
+      a {
+        transition: all 0.3s ease 0s;
+        &:hover {
+          color: #0088a9;
+        }
+      }
+    }
+  }
+
+</style>
