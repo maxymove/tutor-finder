@@ -14,7 +14,7 @@ public class MySql {
 
     private final String jdbcDriverStr = "com.mysql.jdbc.Driver";
     private final String jdbcURL = "jdbc:mysql://localhost/tutorfinder?"
-            + "user=root&password=root";
+            + "user=root&password=chakeera";
 
     private Connection connection;
     private Statement statement;

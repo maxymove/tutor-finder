@@ -9,6 +9,11 @@
             <font-awesome-icon icon="home" />Home
           </router-link>
         </li>
+        <li v-if="!currentUser" class="nav-item">
+          <router-link to="/home" class="nav-link">
+            <font-awesome-icon icon="home" />Home
+          </router-link>
+        </li>
         <li v-if="showAdminBoard" class="nav-item">
           <router-link to="/admin" class="nav-link">Admin Board</router-link>
         </li>

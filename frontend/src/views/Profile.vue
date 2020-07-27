@@ -4,14 +4,13 @@
         <div class="typewriter">
             <h1>Welcome, {{currentUser.username}} </h1>
         </div>
-        <h2>{{err}}</h2>
         <div class="blue-frame">
         <div class="blue-button-copy" @click="$router.push('/search')" >Add</div>
     </div>
         <br>
         <h3>Current Courses</h3>
-        <div v-if="message" class="alert alert-success">
-            {{message}}
+        <div v-if="err" class="alert alert-success">
+            {{err}}
         </div>
         <div class="container">
             <table class="table">
@@ -25,7 +24,7 @@
                 <tr v-for="course in courses" v-bind:key="course.id">
                     <td>{{course.courseId}}</td>
                     <td>{{course.courseName}}</td>
-                    <td><button class="btn btn-warning"  v-on:click.once="deleteCourse(course.courseId)">DELETE</button></td>
+                    <td><button class="btn btn-warning"  v-on:click="deleteCourse(course.courseId)">DELETE</button></td>
                     <td>
                     </td>
                 </tr>
@@ -82,6 +81,7 @@
                     .then(
                         response => {
                             this.err = response.data;
+                            this.refresh();
                         }
                     )
             }
