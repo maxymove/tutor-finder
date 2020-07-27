@@ -18,14 +18,13 @@
                 <tr>
                     <th>Course Id</th>
                     <th>Course Name</th>
-<!--                    <th>Description</th>-->
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="course in courses" v-bind:key="course.id">
                     <td>{{course.courseId}}</td>
                     <td>{{course.courseName}}</td>
-<!--                    <td>{{course.description}}</td>-->
+                    <td><button class="btn btn-warning"  v-on:click.once="deleteCourse(course.courseId,this.currentUser.username)">DELETE</button></td>
                     <td>
                     </td>
                 </tr>
@@ -64,6 +63,12 @@
                 courses:[]
             };
         },
+        methods:{
+            deleteCourse(){
+                //fix here
+            }
+
+        },
         computed: {
             currentUser() {
                 return this.$store.state.auth.user;
@@ -77,11 +82,7 @@
                         this.courses = response.data;
                     }
                 )
-            // UserService.getStudentCourseList().then( //fix this
-            //  response => {
-            //      this.courses = response.data;
-            //  }
-            // )
+
             if (!this.currentUser) {
                 this.$router.push('/login');
             }

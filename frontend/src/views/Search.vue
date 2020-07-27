@@ -1,17 +1,9 @@
 <template>
     <div class="container">
-        <h2>
-            {{info}}
-        </h2>
         <br>
         <br>
         <h3> Available Courses</h3>
-        <div v-if="message" class="alert alert-success">
-            {{message}}
-        </div>
-        <h1>
-            {{currentUser.username}}
-        </h1>
+        <div v-if="message" class="alert alert-success" role="alert">{{message}}</div>
         <div class="container">
             <table class="table">
                 <thead>
@@ -19,19 +11,15 @@
                     <th>Course Id</th>
                     <th>Course Name</th>
                     <th>Course Category</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="course in courses" v-bind:key="course.id">
+                <tr v-for="course in courses" v-bind:key="course.id" >
                     <td>{{course.courseId}}</td>
                     <td>{{course.courseName}}</td>
                     <td>{{course.category}}</td>
-                    <td><button class="btn btn-warning"
-                                v-on:click="addCourse(course.courseId)">
-                        ADD
-                    </button></td>
-                    <td>
-                    </td>
+                    <td><button class="btn btn-warning"  v-on:click.once="addCourse(course.courseId)" >ADD</button></td>
                 </tr>
                 </tbody>
             </table>
@@ -66,18 +54,19 @@
         data(){
             return{
                 courses:[],
-                info: ''
+                message:''
             };
         },
         methods:{
+
             addCourse(id){
-                // axios.post .....
                 axios
                     .post('http://localhost:8080/api/test/add/course/' + this.currentUser.username + '.' + id)
                     .then(
                         response => {
-                            this.info = response.data;
+                            this.message = response.data;
                         }
+
                     )
             }
         },
@@ -87,10 +76,11 @@
             }
         },
         mounted() {
+
             UserService.getAllCourse().then(
                 response => {
                     this.courses = response.data;
-                }
+                },
             )
             if (!this.currentUser) {
                 this.$router.push('/login');
@@ -171,4 +161,5 @@
             border-color: orange;
         }
     }
+
 </style>
