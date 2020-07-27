@@ -1,6 +1,8 @@
-package app.tutorfinder;
+package app.tutorfinder.security;
 
+import app.tutorfinder.models.CourseTaken;
 import app.tutorfinder.models.User;
+import app.tutorfinder.models.UserCourse;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -25,6 +27,47 @@ public class MySql {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+//    public List<UserCourse> getCourseTakenList(String username) {
+//        List<UserCourse> courseTakenList = new ArrayList<>();
+//        try {
+//            connection = DriverManager.getConnection(jdbcURL);
+//            statement = connection.createStatement();
+//            resultSet = statement.executeQuery("select course_taken.course_id, courses.course_name from course_taken INNER JOIN courses ON course_taken.course_id=courses.course_id where course_taken.username = " + username);
+//            while (resultSet.next()) {
+//                UserCourse userCourse = new UserCourse();
+//                userCourse.setCourseId(resultSet.getString(1));
+//                userCourse.setCourseName(resultSet.getString(2));
+//                courseTakenList.add(userCourse);
+//            }
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } finally {
+//            close();
+//        }
+//        return courseTakenList;
+//    }
+
+    public List<CourseTaken> getCourseTakenList() {
+        List<CourseTaken> courseTakenList = new ArrayList<>();
+        try {
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select * from tutorfinder.course_taken;");
+            while (resultSet.next()) {
+                CourseTaken courseTaken = new CourseTaken();
+                courseTaken.setId(resultSet.getLong(1));
+                courseTaken.setCourseId(resultSet.getString(2));
+                courseTaken.setUsername(resultSet.getString(3));
+                courseTakenList.add(courseTaken);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            close();
+        }
+        return courseTakenList;
     }
 
     public void insertCourse(String username, String courseId) {

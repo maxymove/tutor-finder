@@ -1,13 +1,13 @@
 package app.tutorfinder.controller;
 
-import app.tutorfinder.MySql;
+import app.tutorfinder.security.MySql;
 import app.tutorfinder.models.Course;
+import app.tutorfinder.models.CourseTaken;
 import app.tutorfinder.models.User;
+import app.tutorfinder.models.UserCourse;
 import app.tutorfinder.repository.CourseRepository;
 import app.tutorfinder.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -48,5 +48,20 @@ public class UserController {
     public String addCourse(@PathVariable String username, @PathVariable String courseId) {
         mySql.insertCourse(username, courseId);
         return "successfully added the course.";
+    }
+
+    @GetMapping("/{username}/course")
+    public List<UserCourse> getUserCourses(@PathVariable String username) {
+        List<UserCourse> userCourses = new ArrayList<>();
+        for (CourseTaken courseTaken : mySql.getCourseTakenList()) {
+            if (courseTaken.getUsername().equals(username)) {
+                UserCourse userCourse = new UserCourse();
+                userCourse.setCourseId(courseTaken.getCourseId());
+                userCourse.setCourseName(    courseRepository.findByCourseId(courseTaken.getCourseId()).getCourseName()    );
+                userCourses.add(userCourse);
+            }
+        }
+        return userCourses;
+//        return mySql.getCourseTakenList();
     }
 }

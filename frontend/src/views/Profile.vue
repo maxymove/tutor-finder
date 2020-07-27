@@ -18,14 +18,14 @@
                 <tr>
                     <th>Course Id</th>
                     <th>Course Name</th>
-                    <th>Description</th>
+<!--                    <th>Description</th>-->
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="course in courses" v-bind:key="course.id">
                     <td>{{course.courseId}}</td>
                     <td>{{course.courseName}}</td>
-                    <td>{{course.description}}</td>
+<!--                    <td>{{course.description}}</td>-->
                     <td>
                     </td>
                 </tr>
@@ -54,8 +54,8 @@
 </template>
 
 <script>
-    import UserService from '../services/user.service';
-    // import axios from 'axios';
+    // import UserService from '../services/user.service';
+    import axios from 'axios';
 
     export default {
         name: 'Profile',
@@ -70,18 +70,18 @@
             }
         },
         mounted() {
-            // axios
-            //     .post('http://localhost:8080/api/test/add/course/' + this.currentUser.username + '.' + this.course.courseId
-            //     .then(
-            //         response => {
-            //             this.info = response.data;
-            //         }
-            //     )
-            UserService.getStudentCourseList().then( //fix this
-             response => {
-                 this.courses = response.data;
-             }
-            )
+            axios
+                .get('http://localhost:8080/api/test/' + this.currentUser.username + '/course')
+                .then(
+                    response => {
+                        this.courses = response.data;
+                    }
+                )
+            // UserService.getStudentCourseList().then( //fix this
+            //  response => {
+            //      this.courses = response.data;
+            //  }
+            // )
             if (!this.currentUser) {
                 this.$router.push('/login');
             }
