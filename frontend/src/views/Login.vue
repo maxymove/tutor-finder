@@ -1,54 +1,43 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
+  <div class="login-box">
+    <h2>Login</h2>
       <form name="form" @submit.prevent="handleLogin">
-        <div class="form-group">
+        <div class="user-box">
+          <input type="text" name="username" required="" v-model="user.username" v-validate="'required'">
           <label for="username">Username</label>
-          <input
-            v-model="user.username"
-            v-validate="'required'"
-            type="text"
-            class="form-control"
-            name="username"
-          />
           <div
-            v-if="errors.has('username')"
-            class="alert alert-danger"
-            role="alert"
+                  v-if="errors.has('username')"
+                  class="alert alert-danger"
+                  role="alert"
           >Username is required!</div>
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
+        <div class="user-box">
           <input
             v-model="user.password"
             v-validate="'required'"
             type="password"
-            class="form-control"
             name="password"
+            required=""
           />
+          <label for="password">Password</label>
           <div
             v-if="errors.has('password')"
             class="alert alert-danger"
             role="alert"
           >Password is required!</div>
         </div>
-        <div class="form-group">
-          <button class="btn btn-primary btn-block" :disabled="loading">
+
+        <div class="user-box">
+        <button class="btn btn-primary btn-block" :disabled="loading">
             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
             <span>Login</span>
           </button>
         </div>
-        <div class="form-group">
+        <div class="user-box">
           <div v-if="message" class="alert alert-danger" role="alert">{{message}}</div>
         </div>
       </form>
     </div>
-  </div>
 </template>
 
 <script>
@@ -102,7 +91,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style  lang="scss">
 label {
   display: block;
   margin-top: 10px;
@@ -135,4 +124,80 @@ label {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+html {
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+
+}
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+  h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+  }
+  .user-box {
+    position: relative;
+    input {
+      width: 100%;
+      padding: 10px 0;
+      font-size: 16px;
+      color: #fff;
+      margin-bottom: 30px;
+      border: none;
+      border-bottom: 1px solid #fff;
+      outline: none;
+      background: transparent;
+      &:focus {
+        ~ {
+          label {
+            top: -20px;
+            left: 0;
+            color: #03e9f4;
+            font-size: 12px;
+          }
+        }
+      }
+      &:valid {
+        ~ {
+          label {
+            top: -20px;
+            left: 0;
+            color: #03e9f4;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+    label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 10px 0;
+      font-size: 16px;
+      color: #fff;
+      pointer-events: none;
+      transition: .5s;
+    }
+  }
+
+}
+
+
+
+
 </style>
