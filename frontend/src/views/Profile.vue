@@ -4,6 +4,14 @@
         <div class="typewriter">
             <h1>Welcome, {{currentUser.username}} </h1>
         </div>
+
+
+        <h1>
+            {{content}}}
+        </h1>
+
+
+
         <br>
         <h3>Current Courses</h3>
         <div v-if="message" class="alert alert-success">
@@ -19,10 +27,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="course in studentCourse" v-bind:key="course.id">
-                    <td>{{course.id}}</td>
-                    <td>{{course.username}}</td>
-                    <td>{{course.password}}</td>
+                <tr v-for="course in content" v-bind:key="course.id">
+                    <td>{{course.courseId}}</td>
+                    <td>{{course.courseName}}</td>
+                    <td>{{course.description}}</td>
                     <td>
                     </td>
                 </tr>
@@ -57,8 +65,9 @@
         name: 'Profile',
         data(){
             return{
-                studentCourse:[],
-            }
+                // content: '',
+                content:[]
+            };
         },
         computed: {
             currentUser() {
@@ -73,6 +82,11 @@
             },
         },
         mounted() {
+            UserService.getAllCourse().then(
+             response => {
+                 this.content = response.data;
+             }
+            )
             if (!this.currentUser) {
                 this.$router.push('/login');
             }

@@ -20,8 +20,12 @@ class UserService {
     return axios.get(API_URL + 'admin', { headers: authHeader() });
   }
 
+  getAllCourse() {
+    return axios.get(API_URL + 'course/all', { headers: authHeader()})
+  }
+
   getStudentCourseList(id){
-  return axios.get(API_URL +'/profile'+id,{headers:authHeader()});
+  return axios.get(API_URL +'profile/'+id,{headers:authHeader()});
 
   }
 }
