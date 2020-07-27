@@ -55,6 +55,7 @@
 
 <script>
     import UserService from '../services/user.service';
+    // import axios from 'axios';
 
     export default {
         name: 'Profile',
@@ -69,6 +70,13 @@
             }
         },
         mounted() {
+            // axios
+            //     .post('http://localhost:8080/api/test/add/course/' + this.currentUser.username + '.' + this.course.courseId
+            //     .then(
+            //         response => {
+            //             this.info = response.data;
+            //         }
+            //     )
             UserService.getStudentCourseList().then( //fix this
              response => {
                  this.courses = response.data;

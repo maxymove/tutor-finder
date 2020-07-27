@@ -1,11 +1,17 @@
 <template>
     <div class="container">
+        <h2>
+            {{info}}
+        </h2>
         <br>
         <br>
         <h3>Current Available Courses</h3>
         <div v-if="message" class="alert alert-success">
             {{message}}
         </div>
+        <h1>
+            {{currentUser.username}}
+        </h1>
         <div class="container">
             <table class="table">
                 <thead>
@@ -53,17 +59,26 @@
 
 <script>
     import UserService from '../services/user.service';
+    import axios from 'axios';
 
     export default {
         name: 'Search',
         data(){
             return{
-                courses:[]
+                courses:[],
+                info: ''
             };
         },
         methods:{
             addCourse(id){
                 // axios.post .....
+                axios
+                    .post('http://localhost:8080/api/test/add/course/' + this.currentUser.username + '.' + id)
+                    .then(
+                        response => {
+                            this.info = response.data;
+                        }
+                    )
             }
         },
         computed: {
