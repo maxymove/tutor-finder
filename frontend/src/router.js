@@ -54,7 +54,13 @@ export const router = new Router({
       path:'/search',
       name:'Search',
       component:()=> import('./views/Search.vue')
+    },
+    {
+      path:'/view',
+      name:'View',
+      component:()=> import('./views/ViewCourse.vue')
     }
+
 
   ]
 });

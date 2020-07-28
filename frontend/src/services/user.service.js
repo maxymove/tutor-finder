@@ -28,6 +28,7 @@ class UserService {
   return axios.get(API_URL +'profile',{headers:authHeader()});
 
   }
+
 }
 
 export default new UserService();

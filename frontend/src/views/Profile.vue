@@ -29,6 +29,8 @@
                     <td>{{course.courseName}}</td>
                     <td><button class="btn btn-warning"  v-on:click="deleteCourse(course.courseId)">DELETE</button></td>
                     <td>
+                    <td><button class="btn btn-warning"  v-on:click="viewCourse(course.courseId)">View Details</button></td>
+                    <td>
                     </td>
                 </tr>
                 </tbody>
@@ -87,6 +89,17 @@
                             this.refresh();
                         }
                     )
+            },
+            viewCourse(id){
+                axios
+                .post('http://localhost:8080/api/test/view/course/' + id)
+                .then(
+                    response => {
+                        this.err = response.data;
+                    },
+                    this.$router.push('/view/'+id)
+
+                )
             }
 
         },
