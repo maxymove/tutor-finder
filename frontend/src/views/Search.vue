@@ -3,7 +3,10 @@
         <br>
         <br>
         <h3> Available Courses</h3>
-        <div v-if="message" class="alert alert-success" role="alert">{{message}}</div>
+        <div v-if="message" class="alert alert-success" role="alert">{{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button></div>
         <div class="container">
             <table class="table">
                 <thead>

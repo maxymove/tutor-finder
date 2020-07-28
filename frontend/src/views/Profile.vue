@@ -9,8 +9,11 @@
     </div>
         <br>
         <h3>Current Courses</h3>
-        <div v-if="err" class="alert alert-success">
+        <div v-if="err" class="alert alert-success" alert-dismissible fade show >
             {{err}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <div class="container">
             <table class="table">
