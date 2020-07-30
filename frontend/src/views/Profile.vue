@@ -29,7 +29,7 @@
                     <td>{{course.courseName}}</td>
                     <td><button class="btn btn-warning"  v-on:click="deleteCourse(course.courseId)">DELETE</button></td>
                     <td>
-                    <td><button class="btn btn-warning"  v-on:click="viewCourse(course.courseId)">View Details</button></td>
+                    <td><button class="btn btn-warning"  @click="$router.push('/view')">View Details</button></td>
                     <td>
                     </td>
                 </tr>
